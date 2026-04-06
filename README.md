@@ -24,3 +24,56 @@ Select everything and copy it.
 Open the SetupVault/Program.cs file you have open right now.
 Replace the entire dummyJson string block with the actual JSON content you copied. (Make sure you keep the @ symbol before the string to allow multiple lines).
 Run the SetupVault project again.
+
+
+ This is the architeture of CloudSync project
+
+ CloudSync.sln
+│
+├── src/
+│   ├── CloudSync.Worker/               ← Entry point (Worker Service host)
+│   │   ├── Program.cs
+│   │   ├── appsettings.json
+│   │   ├── appsettings.Production.json
+│   │   └── CloudSync.Worker.csproj
+│   │
+│   ├── CloudSync.Core/                 ← Domain + Business Logic
+│   │   ├── Models/
+│   │   │   ├── FileRecord.cs
+│   │   │   ├── FolderMapping.cs
+│   │   │   └── UploadJob.cs
+│   │   ├── Interfaces/
+│   │   │   ├── IFileScanner.cs
+│   │   │   ├── IUploadEngine.cs
+│   │   │   ├── IStateRepository.cs
+│   │   │   └── ICredentialVault.cs
+│   │   └── CloudSync.Core.csproj
+│   │
+│   ├── CloudSync.Infrastructure/       ← Implementations
+│   │   ├── GoogleDrive/
+│   │   │   ├── DriveUploadEngine.cs
+│   │   │   ├── ResumableUploadHandler.cs
+│   │   │   └── DriveAuthProvider.cs
+│   │   ├── Persistence/
+│   │   │   ├── SqliteStateRepository.cs
+│   │   │   └── DbInitializer.cs
+│   │   ├── Security/
+│   │   │   └── WindowsCredentialVault.cs
+│   │   ├── Scanning/
+│   │   │   ├── FileSystemWatcherProducer.cs
+│   │   │   └── DeepScanProducer.cs
+│   │   └── CloudSync.Infrastructure.csproj
+│   │
+│   └── CloudSync.Resilience/           ← Polly policies (isolated)
+│       ├── ResiliencePipelineFactory.cs
+│       └── CloudSync.Resilience.csproj
+│
+├── tests/
+│   ├── CloudSync.Core.Tests/
+│   └── CloudSync.Infrastructure.Tests/
+│
+└── deploy/
+    ├── Install-CloudSync.ps1
+    ├── Uninstall-CloudSync.ps1
+    └── CloudSync.wxs                   ← WiX installer (optional)
+
