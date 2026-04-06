@@ -1,0 +1,27 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- Placeholder WiX Installer for CloudSync Windows Service -->
+  <Product Id="*" Name="CloudSync Service" Language="1033" Version="1.0.0.0" Manufacturer="Acme Corp" UpgradeCode="PUT-GUID-HERE">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <!-- Typical WiX configuration to install and register a Windows Service goes here -->
+
+    <Feature Id="ProductFeature" Title="CloudSyncService" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="CloudSync Service" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- Service EXEs and dependencies -->
+    </ComponentGroup>
+  </Fragment>
+</Wix>

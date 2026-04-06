@@ -1,0 +1,18 @@
+using CloudSync.Infrastructure.Security;
+
+var vault = new WindowsCredentialVault();
+var dummyJson = @"{
+  ""type"": ""service_account"",
+  ""project_id"": ""dummy"",
+  ""private_key_id"": ""dummy"",
+  ""private_key"": ""-----BEGIN PRIVATE KEY-----\nMIIEvgIBADA\n-----END PRIVATE KEY-----\n"",
+  ""client_email"": ""dummy@dummy.iam.gserviceaccount.com"",
+  ""client_id"": ""123"",
+  ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+  ""token_uri"": ""https://oauth2.googleapis.com/token"",
+  ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+  ""client_x509_cert_url"": ""https://www.googleapis.com/robot/v1/metadata/x509/dummy""
+}";
+
+vault.Save("GoogleDriveServiceAccount", dummyJson);
+System.Console.WriteLine("Vault seeded successfully with dummy credentials.");
